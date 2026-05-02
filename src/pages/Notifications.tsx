@@ -1,61 +1,102 @@
-import React, { useState } from 'react';
-import { Bell, ShieldAlert, AlertTriangle, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Terminal, ShieldAlert, AlertTriangle, Info, CheckCircle, ChevronRight, X } from 'lucide-react';
 
 export default function Notifications() {
-  const [notifications, setNotifications] = useState([
-    { id: 1, type: 'critical', time: '20 Mei 2024 10:30 WIB', title: 'Titik panas terdeteksi di Pos 3 - Sabana', risk: 'TINGGI', read: false },
-    { id: 2, type: 'warning', time: '20 Mei 2024 08:15 WIB', title: 'Titik panas terdeteksi di Pos 2 - Sabana', risk: 'SEDANG', read: true },
-    { id: 3, type: 'info', time: '19 Mei 2024 14:00 WIB', title: 'Sistem sensor suhu dikalibrasi (Sensor 12)', risk: 'INFO', read: true },
-    { id: 4, type: 'success', time: '19 Mei 2024 10:00 WIB', title: 'Titik panas di Jalur Senaru berhasil ditangani', risk: 'AMAN', read: true },
+  const [logs, setLogs] = useState([
+    { id: 1, type: 'critical', time: '10:30:11.231', trace: 'SYS-CORE', msg: 'SUHU PANAS TERDETEKSI DI SABANA. MENCAPAI 85°C.', risk: 'BAHAYA', read: false },
+    { id: 2, type: 'warning', time: '08:15:02.110', trace: 'SENS-04', msg: 'SENSOR TIDAK NORMAL. SUHU NAIK 42°C. BIASANYA 15°C.', risk: 'WASPADA', read: true },
+    { id: 3, type: 'info', time: '07:00:00.000', trace: 'AUTO-CALIB', msg: 'PENGECEKAN RUTIN SELESAI. SEMUA SENSOR NORMAL.', risk: 'INFO', read: true },
+    { id: 4, type: 'success', time: 'KEMARIN', trace: 'ADMIN-ACT', msg: 'MASALAH #291 SELESAI. PETUGAS KEMBALI KE POS.', risk: 'AMAN', read: true },
   ]);
 
   const toggleRead = (id: number) => {
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: !n.read } : n));
+    setLogs(prev => prev.map(n => n.id === id ? { ...n, read: !n.read } : n));
   };
+
+  const clearAll = () => setLogs(prev => prev.map(n => ({...n, read: true})));
 
   return (
     <div className="h-full w-full flex flex-col gap-4 text-slate-200">
-      <div className="flex-1 bg-[#1e293b] rounded-xl p-6 flex flex-col shadow-lg border border-slate-700/50">
-        <h2 className="text-xl font-bold mb-6 uppercase text-slate-200 tracking-wide flex items-center gap-3">
-          <Bell className="w-6 h-6 text-slate-400" />
-          Pusat Notifikasi
-        </h2>
+      <div className="flex-1 bg-[#0f172a] rounded-xl p-0 flex flex-col shadow-2xl border border-slate-700/80 overflow-hidden relative">
         
-        <div className="flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
-          {notifications.map((notif) => (
-            <div 
-              key={notif.id}
-              onClick={() => toggleRead(notif.id)}
-              className={`flex items-start gap-4 p-4 rounded-xl border ${
-                notif.read ? 'bg-slate-800/30 border-slate-700/50' : 'bg-slate-800 border-slate-600'
-              } hover:bg-slate-700/50 transition-colors cursor-pointer`}
-            >
-              <div className="mt-1">
-                {notif.type === 'critical' ? <ShieldAlert className="w-5 h-5 text-red-500" /> :
-                 notif.type === 'warning' ? <AlertTriangle className="w-5 h-5 text-orange-500" /> :
-                 notif.type === 'success' ? <CheckCircle className="w-5 h-5 text-emerald-500" /> :
-                 <Bell className="w-5 h-5 text-blue-500" />}
-              </div>
-              
-              <div className="flex-1">
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className={`font-semibold ${notif.read ? 'text-slate-300' : 'text-white'}`}>{notif.title}</h3>
-                  <span className="text-xs text-slate-400 font-mono">{notif.time}</span>
+        {/* Terminal Header */}
+        <div className="bg-slate-900 border-b border-slate-700 p-4 flex justify-between items-center z-10 shadow-md">
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 rounded bg-slate-800 border border-slate-600 flex items-center justify-center">
+               <Terminal className="w-5 h-5 text-slate-400" />
+             </div>
+             <div>
+               <h2 className="text-sm font-bold uppercase text-slate-200 tracking-widest font-mono">
+                 Catatan Sistem
+               </h2>
+               <p className="text-[10px] text-slate-500 font-mono">Daftar pemberitahuan terbaru</p>
+             </div>
+          </div>
+          <button 
+            onClick={clearAll}
+            className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded border border-slate-600 transition-colors text-[10px] font-mono uppercase tracking-widest text-slate-300"
+          >
+            <CheckCircle className="w-3 h-3" /> Tandai Sudah Dibaca
+          </button>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 bg-[#0a0f1d] font-mono text-sm relative">
+          
+          {/* Subtle grid background */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+          
+          <div className="space-y-1 relative z-10 flex flex-col gap-0.5">
+            {logs.map((log) => (
+              <div 
+                key={log.id}
+                onClick={() => toggleRead(log.id)}
+                className={`py-2 px-3 rounded flex items-start gap-4 cursor-pointer transition-all border-l-2 ${
+                  log.read ? 'opacity-60 border-slate-800 hover:bg-slate-800/30' : 'bg-slate-800/40 hover:bg-slate-800/60'
+                } ${
+                  !log.read && log.type === 'critical' ? 'border-red-500' :
+                  !log.read && log.type === 'warning' ? 'border-orange-500' :
+                  !log.read ? 'border-blue-500' : ''
+                }`}
+              >
+                <div className="w-24 shrink-0 text-slate-500 text-[10px] pt-1">
+                  [{log.time}]
                 </div>
-                <div className="flex items-center gap-3 mt-2">
-                  <span className={`text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded bg-black/30 border ${
-                    notif.type === 'critical' ? 'text-red-500 border-red-500/30' :
-                    notif.type === 'warning' ? 'text-orange-500 border-orange-500/30' :
-                    notif.type === 'success' ? 'text-emerald-500 border-emerald-500/30' :
-                    'text-blue-500 border-blue-500/30'
-                  }`}>
-                    {notif.risk}
+                
+                <div className="w-20 shrink-0 text-[10px] pt-1 text-slate-400 font-bold overflow-hidden text-ellipsis">
+                  {log.trace}
+                </div>
+
+                <div className={`flex-1 flex flex-col gap-1 ${
+                    log.type === 'critical' ? 'text-red-400' :
+                    log.type === 'warning' ? 'text-orange-400' :
+                    log.type === 'success' ? 'text-emerald-400' :
+                    'text-slate-300'
+                }`}>
+                  <span className="leading-snug flex items-center gap-2">
+                    <ChevronRight className="w-3 h-3 shrink-0" />
+                    {log.msg}
                   </span>
-                  {!notif.read && <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>}
+                </div>
+                
+                <div className="shrink-0 pt-0.5">
+                   <span className={`text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded border ${
+                      log.type === 'critical' ? 'text-red-500/80 border-red-500/30 bg-red-500/10' :
+                      log.type === 'warning' ? 'text-orange-500/80 border-orange-500/30 bg-orange-500/10' :
+                      log.type === 'success' ? 'text-emerald-500/80 border-emerald-500/30 bg-emerald-500/10' :
+                      'text-blue-500/80 border-blue-500/30 bg-blue-500/10'
+                    }`}>
+                      {log.risk}
+                    </span>
                 </div>
               </div>
+            ))}
+            
+            {/* Blinking Cursor */}
+            <div className="pt-4 pl-[7.5rem] flex items-center">
+              <span className="w-2 h-4 bg-slate-500 animate-[pulse_1s_step-start_infinite]"></span>
             </div>
-          ))}
+            
+          </div>
         </div>
       </div>
     </div>

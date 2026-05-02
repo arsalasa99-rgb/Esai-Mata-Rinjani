@@ -68,7 +68,7 @@ export default function PetaLive() {
                <Radio className="w-5 h-5 text-red-500" />
              </div>
              <div>
-               <h2 className="text-sm md:text-base font-bold uppercase text-red-400 tracking-widest drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]">SAT-LINK: ACTIVE (LIVE)</h2>
+               <h2 className="text-sm md:text-base font-bold uppercase text-red-400 tracking-widest drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]">PEMETAAN LANGSUNG: AKTIF</h2>
                <p className="text-[10px] font-mono text-green-400 tracking-[0.2em]">{timeStr} UTC+8</p>
              </div>
           </div>
@@ -76,7 +76,7 @@ export default function PetaLive() {
              <button 
                onClick={() => setIsFullscreen(!isFullscreen)}
                className="p-2 bg-slate-900/80 hover:bg-slate-800 rounded-lg transition-colors border border-slate-700 backdrop-blur-md"
-               title={isFullscreen ? 'Minimize Viewer' : 'Maximize Viewer'}
+               title={isFullscreen ? 'Kecilkan Peta' : 'Perbesar Peta'}
              >
                {isFullscreen ? <Minimize2 className="w-5 h-5 text-slate-300" /> : <Maximize2 className="w-5 h-5 text-slate-300" />}
              </button>
@@ -160,7 +160,7 @@ export default function PetaLive() {
           <div className="absolute top-20 left-4 md:left-6 bottom-6 w-52 md:w-64 flex flex-col gap-3 z-[403] pointer-events-none">
             
             <div className="bg-[#0f172a]/80 backdrop-blur-md border border-slate-700/80 rounded-lg p-3 pointer-events-auto">
-               <h3 className="text-[10px] font-mono text-slate-400 tracking-widest uppercase mb-2 border-b border-slate-700 pb-1">Telemetry Sensor</h3>
+               <h3 className="text-[10px] font-mono text-slate-400 tracking-widest uppercase mb-2 border-b border-slate-700 pb-1">Daftar Titik Suhu</h3>
                <div className="flex flex-col gap-2">
                  {anomalies.map(anom => (
                    <div key={anom.id} className="flex justify-between items-center group cursor-pointer hover:bg-slate-800/50 p-1 rounded">
@@ -178,10 +178,10 @@ export default function PetaLive() {
             <div className="bg-red-900/30 backdrop-blur-md border border-red-500/40 rounded-lg p-3 pointer-events-auto mt-auto shadow-[0_0_15px_rgba(239,68,68,0.2)]">
               <div className="flex items-center gap-2 mb-2">
                 <AlertTriangle className="w-4 h-4 text-red-400 animate-pulse" />
-                <span className="text-[10px] md:text-xs font-bold text-red-400 tracking-widest">CRITICAL TARGETS</span>
+                <span className="text-[10px] md:text-xs font-bold text-red-400 tracking-widest">TITIK BERBAHAYA</span>
               </div>
               <p className="text-[9px] md:text-[10px] font-mono text-red-300/80">
-                 {anomalies.filter(a => a.status === 'high').length} ACTIVE HOTSPOTS DETECTED EXCEEDING 75.0°C THRESHOLD. IMMEDIATE INTERVENTION SUGGESTED.
+                 {anomalies.filter(a => a.status === 'high').length} TITIK PANAS MELEBIHI 75°C. SEGERA LAKUKAN PENGECEKAN.
               </p>
             </div>
 
@@ -189,15 +189,15 @@ export default function PetaLive() {
 
           {/* METRICS HUD (BOTTOM RIGHT) */}
           <div className="hidden md:flex absolute bottom-6 right-6 z-[403] bg-[#0f172a]/80 backdrop-blur-md border border-slate-700/80 rounded-lg p-3 pointer-events-auto flex-col gap-1 items-end min-w-[150px]">
-             <span className="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Coordinates</span>
+             <span className="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Koordinat Peta</span>
              <span className="text-xs font-mono text-green-400 font-bold tracking-wider">LAT -8.4116</span>
              <span className="text-xs font-mono text-green-400 font-bold tracking-wider">LNG 116.4578</span>
              <div className="h-px w-full bg-slate-700 my-1"></div>
-             <span className="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Elevation</span>
-             <span className="text-xs font-mono text-slate-300 font-bold tracking-wider">3,726 M</span>
+             <span className="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Ketinggian Tanah</span>
+             <span className="text-xs font-mono text-slate-300 font-bold tracking-wider">3.726 M</span>
              <div className="h-px w-full bg-slate-700 my-1"></div>
-             <span className="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Coverage</span>
-             <span className="text-xs font-mono text-slate-300 font-bold tracking-wider">41,330 HA</span>
+             <span className="text-[10px] font-mono text-slate-400 tracking-widest uppercase">Luas Area Pantau</span>
+             <span className="text-xs font-mono text-slate-300 font-bold tracking-wider">41.330 HA</span>
           </div>
 
         </div>

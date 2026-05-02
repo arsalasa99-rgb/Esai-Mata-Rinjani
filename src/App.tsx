@@ -6,7 +6,8 @@ import PetaLive from './pages/PetaLive';
 import Notifications from './pages/Notifications';
 import Devices from './pages/Devices';
 import SettingsPage from './pages/Settings';
-import { ShieldAlert, Mountain, Clock, Settings, Map, Home, Bell, MonitorSmartphone, Menu, X } from 'lucide-react';
+import { ShieldAlert, Mountain, Clock, Settings, Map, Home, Bell, MonitorSmartphone, Menu, X, Radar } from 'lucide-react';
+import { LogoIcon } from './components/LogoIcon';
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -19,64 +20,76 @@ function AppLayout({ children }: { children: React.ReactNode }) {
   
   return (
     <div className="flex bg-[#0f172a] h-[100dvh] w-screen font-sans antialiased overflow-hidden relative">
-      <div className="w-full h-full bg-[#0f172a] flex flex-col md:flex-row overflow-hidden relative text-slate-200">
+      <div className="w-full h-full bg-[#0a0f1d] flex flex-col md:flex-row overflow-hidden relative text-slate-200">
         
         {/* Mobile Top Bar */}
-          <div className="md:hidden flex items-center justify-between p-4 bg-[#1e293b] border-b border-slate-700/50 z-30">
+          <div className="md:hidden flex items-center justify-between p-4 bg-[#0a0f1d] border-b border-slate-800 z-30">
             <div className="flex items-center gap-3">
-              <Mountain className="w-8 h-8 text-slate-300" strokeWidth={1} />
-              <h1 className="text-lg font-bold tracking-widest text-slate-100 m-0 leading-tight">MATA<br/>RINJANI</h1>
+              <LogoIcon className="w-8 h-8 text-emerald-500 animate-pulse drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              <h1 className="text-xl font-bold tracking-[0.2em] text-slate-200 m-0 leading-tight font-mono">MATA<br/>RINJANI</h1>
             </div>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 bg-slate-800 rounded-lg text-slate-300 hover:text-white transition-colors"
+              className="p-2 bg-slate-900 rounded border border-slate-800 text-slate-400 hover:text-emerald-400 transition-colors"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
 
           {/* Sidebar Navigation */}
-          <nav className={`${isMobileMenuOpen ? 'flex' : 'hidden'} md:flex absolute md:relative top-[73px] md:top-0 left-0 w-full md:w-[280px] h-[calc(100%-73px)] md:h-full bg-[#1e293b] flex-col z-50 md:pt-2 border-r border-slate-700/50`}>
-            <div className="hidden md:flex p-8 flex-col items-center justify-center mb-2">
-              <Mountain className="w-14 h-14 text-slate-300 mb-3" strokeWidth={1} />
-              <h1 className="text-2xl font-bold tracking-widest text-slate-100 m-0 leading-tight text-center">MATA<br/>RINJANI</h1>
+          <nav className={`${isMobileMenuOpen ? 'flex' : 'hidden'} md:flex absolute md:relative top-[73px] md:top-0 left-0 w-full md:w-[260px] h-[calc(100%-73px)] md:h-full bg-[#0a0f1d] flex-col z-50 md:pt-4 border-r border-slate-800`}>
+            <div className="hidden md:flex p-6 flex-col items-center justify-center mb-4">
+              <LogoIcon className="w-16 h-16 text-blue-500 mb-2 drop-shadow-[0_0_12px_rgba(59,130,246,0.6)]" />
+              <h1 className="text-2xl font-bold tracking-[0.25em] text-slate-200 m-0 leading-tight text-center font-mono relative">
+                MATA<br/>RINJANI
+                <div className="absolute -right-4 -top-2 w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+              </h1>
+              <div className="text-[9px] font-mono tracking-widest text-slate-500 mt-2 uppercase border border-slate-800 px-2 py-0.5 rounded">SISTEM PANTAU V3.2</div>
             </div>
 
-            <div className="flex-1 py-4 px-6 flex flex-col gap-3 overflow-y-auto custom-scrollbar">
-              <Link to="/" className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all ${location.pathname === '/' ? 'bg-[#0f172a] text-slate-100' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'}`}>
-                <Home className="w-5 h-5 flex-shrink-0" />
-                <span className="font-semibold text-[15px]">Dashboard</span>
+            <div className="flex-1 py-4 px-4 flex flex-col gap-2 overflow-y-auto custom-scrollbar font-mono">
+              <Link to="/" className={`flex items-center gap-4 px-4 py-3 rounded transition-all tracking-widest uppercase text-xs ${location.pathname === '/' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900 border border-transparent'}`}>
+                <Home className="w-4 h-4 flex-shrink-0" />
+                <span className="font-bold">Dasbor</span>
               </Link>
               
-              <Link to="/map" className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all ${location.pathname === '/map' ? 'bg-[#0f172a] text-slate-100' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'}`}>
-                <Map className="w-5 h-5 flex-shrink-0" />
-                <span className="font-medium text-[15px]">Peta Live</span>
+              <Link to="/map" className={`flex items-center gap-4 px-4 py-3 rounded transition-all tracking-widest uppercase text-xs ${location.pathname === '/map' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900 border border-transparent'}`}>
+                <Map className="w-4 h-4 flex-shrink-0" />
+                <span className="font-bold">Peta Live</span>
               </Link>
 
-              <Link to="/forensics" className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all ${location.pathname === '/forensics' ? 'bg-[#0f172a] text-slate-100' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'}`}>
-                <Clock className="w-5 h-5 flex-shrink-0" />
-                <span className="font-medium text-[15px]">Riwayat</span>
+              <Link to="/forensics" className={`flex items-center gap-4 px-4 py-3 rounded transition-all tracking-widest uppercase text-xs ${location.pathname === '/forensics' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900 border border-transparent'}`}>
+                <Clock className="w-4 h-4 flex-shrink-0" />
+                <span className="font-bold">Riwayat</span>
               </Link>
 
-              <Link to="/notifications" className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all ${location.pathname === '/notifications' ? 'bg-[#0f172a] text-slate-100' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'}`}>
-                <Bell className="w-5 h-5 flex-shrink-0" />
-                <span className="font-medium text-[15px]">Notifikasi</span>
+              <Link to="/notifications" className={`flex items-center gap-4 px-4 py-3 rounded transition-all tracking-widest uppercase text-xs ${location.pathname === '/notifications' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900 border border-transparent'}`}>
+                <Bell className="w-4 h-4 flex-shrink-0" />
+                <span className="font-bold">Notifikasi</span>
               </Link>
 
-              <Link to="/devices" className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all ${location.pathname === '/devices' ? 'bg-[#0f172a] text-slate-100' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'}`}>
-                <MonitorSmartphone className="w-5 h-5 flex-shrink-0" />
-                <span className="font-medium text-[15px]">Perangkat</span>
+              <Link to="/devices" className={`flex items-center gap-4 px-4 py-3 rounded transition-all tracking-widest uppercase text-xs ${location.pathname === '/devices' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900 border border-transparent'}`}>
+                <MonitorSmartphone className="w-4 h-4 flex-shrink-0" />
+                <span className="font-bold">Detektor</span>
               </Link>
 
-              <Link to="/settings" className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all ${location.pathname === '/settings' ? 'bg-[#0f172a] text-slate-100' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'}`}>
-                <Settings className="w-5 h-5 flex-shrink-0" />
-                <span className="font-medium text-[15px]">Pengaturan</span>
+              <Link to="/settings" className={`flex items-center gap-4 px-4 py-3 rounded transition-all tracking-widest uppercase text-xs mt-auto ${location.pathname === '/settings' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-900 border border-transparent'}`}>
+                <Settings className="w-4 h-4 flex-shrink-0" />
+                <span className="font-bold">Pengaturan</span>
               </Link>
+            </div>
+            
+            {/* Connection Status line */}
+            <div className="p-4 border-t border-slate-800 bg-slate-900/50">
+               <div className="flex items-center gap-2 justify-center text-[9px] font-mono tracking-widest text-emerald-500">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                  KONEKSI AMAN TERHUBUNG
+               </div>
             </div>
           </nav>
 
           {/* Main Content Area */}
-          <main className="flex-1 relative h-full bg-[#0f172a] overflow-y-auto custom-scrollbar p-4 sm:p-6">
+          <main className="flex-1 relative h-full bg-[#0f172a] overflow-y-auto custom-scrollbar p-2 sm:p-4">
             {children}
           </main>
 
