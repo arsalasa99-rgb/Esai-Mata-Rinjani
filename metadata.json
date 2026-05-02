@@ -1,0 +1,8 @@
+{
+  "name": "Mata Rinjani",
+  "description": "An advanced Early Warning System (EWS) for forest fires in Mount Rinjani National Park, Indonesia.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}
